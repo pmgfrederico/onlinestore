@@ -117,7 +117,7 @@ namespace ImgGroup.OnlineStore.Contracts
                     await this.sessionRepository.SaveShopperSessionAsync(session, ct);
                 }
 
-                session.UpdateCart(cart);                
+                //session.UpdateCart(cart);                
             }
             catch (NullReferenceException) // session not found
             {
