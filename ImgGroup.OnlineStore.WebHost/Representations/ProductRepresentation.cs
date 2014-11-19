@@ -9,6 +9,7 @@ namespace ImgGroup.OnlineStore.WebHost.Representations
     {
         public Guid Key { get; set; }
         public string   ProductId { get; set; }
-        public string Name { get; set; }        
+        public string Name { get; set; }
+        public decimal Price { get; set; }
     }
 }

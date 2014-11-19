@@ -2,16 +2,14 @@
     ViewBag.Title = "Index";
 }
 
-<h2>This is the shopping cart page</h2>
-
 <table id="shoppingCart"
        data-bind="ifnot:itemCount() === 0"
        class="table table-striped">
     <thead>
         <tr>
-            <th></th>
-            <th></th>
-            <th></th>
+            <th colspan="4">
+                <h3><span class="label label-info" data-bind="text:itemCount"></span> item(s) totaling <span class="label label-info" data-bind="text:'$ ' + cartTotal().toFixed(2)"></span></h3>
+            </th>
         </tr>
     </thead>
     <tbody data-bind="foreach: cartItems">
@@ -21,6 +19,9 @@
             </td>
             <td>
                 <span data-bind="text:productName"></span>
+            </td>
+            <td>
+                $ <span data-bind="text:productPrice().toFixed(2)"></span>
             </td>
             <td>
                 <input data-bind="kendoNumericTextBox:{ value:quantity, min:0, enabled: $parent.isLoading() === false}"
@@ -35,7 +36,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="3">
+            <td colspan="4">
                 <span data-bind="if:itemCount() === 0">Your shopping cart is empty</span>
             </td>
         </tr>

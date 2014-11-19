@@ -26,15 +26,17 @@ namespace ImgGroup.OnlineStore.Contracts
             {
             }
 
-            internal CartItem(string productId, string productName, double quantity) //TODO Handle Sku as wel
+            internal CartItem(string productId, string productName, decimal productPrice, double quantity) //TODO Handle Sku as wel
             {
                 this.ProductId = productId;
                 this.ProductName = productName;
+                this.ProductPrice = productPrice;
                 this.Quantity = quantity;
             }
 
             public string ProductId { get; set; }
             public string ProductName { get; set; }
+            public decimal ProductPrice { get; set; }
             public StockKeepingUnit Sku { get; set; }
             public double Quantity { get; set; }
 

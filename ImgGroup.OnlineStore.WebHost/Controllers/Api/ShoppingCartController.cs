@@ -86,6 +86,7 @@ namespace ImgGroup.OnlineStore.WebHost.Controllers.Api
                 shopperId = id,
                 productId = ci.ProductId,
                 productName = ci.ProductName,
+                productPrice = ci.ProductPrice,
                 quantity = ci.Quantity
             })); //TODO add price
         }

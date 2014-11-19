@@ -30,7 +30,7 @@ namespace ImgGroup.OnlineStore.Contracts
 
             var cart = session.GetCart();
 
-            if(!cart.Items.Add(new ShoppingCart.CartItem(product.ProductId, product.Name, cmd.Quantity)))
+            if(!cart.Items.Add(new ShoppingCart.CartItem(product.ProductId, product.Name, product.DefaultPrice.Value, cmd.Quantity)))
             {
                 cart.Items.Single(ci => ci.ProductId == product.ProductId).Quantity += cmd.Quantity;
             }

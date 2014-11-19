@@ -15,7 +15,8 @@ namespace ImgGroup.OnlineStore.WebHost.Representations
             {
                 Key = entity.Id,
                 ProductId = entity.ProductId,
-                Name = entity.Name
+                Name = entity.Name,
+                Price = entity.DefaultPrice.HasValue ? entity.DefaultPrice.Value : 0
             };
         }
     }

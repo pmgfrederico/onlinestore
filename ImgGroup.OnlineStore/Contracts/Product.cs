@@ -30,7 +30,7 @@ namespace ImgGroup.OnlineStore
 
             this.Id = Guid.NewGuid();
             this.ProductId = productId;
-            this.Name = name;
+            this.Name = name;          
         }
 
         #region IEntity<Guid> implementation
