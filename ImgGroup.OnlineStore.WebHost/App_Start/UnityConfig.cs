@@ -7,6 +7,10 @@ using ImgGroup.Common.Entities;
 using ImgGroup.OnlineStore.Contracts;
 using System.Collections.Generic;
 using ImgGroup.OnlineStore.Infrastructure.Repositories;
+using Microsoft.AspNet.Identity;
+using ImgGroup.OnlineStore.WebHost.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
 
 namespace ImgGroup.OnlineStore.WebHost
 {
@@ -41,18 +45,14 @@ namespace ImgGroup.OnlineStore.WebHost
             // NOTE: To load from web.config uncomment the line below. Make sure to add a Microsoft.Practices.Unity.Configuration to the using statements.
             // container.LoadConfiguration();
 
-            // TODO: Register your types here                        
+            
             container.RegisterType<IEntityFrameworkBootstrapper, EntityFrameworkBootstrapper>(new TransientLifetimeManager());
             container.RegisterType<OnlineStoreDbContext>(new PerRequestLifetimeManager());
-            container.RegisterType(typeof(IReadOnlyRepository<,>), typeof(GenericReadOnlyRepository<,>), new PerRequestLifetimeManager());
-            //container.RegisterType(typeof(IDomainCommandHandler<IShoppingCartCommand>), typeof(AddItemCommandHandler), new PerRequestLifetimeManager());
-            //container.RegisterType(typeof(IEnumerable<IDomainCommandHandler<IShoppingCartCommand>>), 
-            //    typeof(IDomainCommandHandler<IShoppingCartCommand>[]));
+            container.RegisterType(typeof(IReadOnlyRepository<,>), typeof(GenericReadOnlyRepository<,>), new PerRequestLifetimeManager());            
             container.RegisterType<IShoppingSessionRepository, ShoppingSessionRepository>(new PerRequestLifetimeManager());
             container.RegisterType<IDomainCommandHandler<AddItemCommand>, AddItemCommandHandler>(new PerRequestLifetimeManager());
             container.RegisterType<IDomainCommandHandler<UpdateItemCommand>, UpdateItemCommandHandler>(new PerRequestLifetimeManager());
-            container.RegisterType<IDomainCommandHandler<RemoveItemCommand>, RemoveItemCommandHandler>(new PerRequestLifetimeManager());
-                        
+            container.RegisterType<IDomainCommandHandler<RemoveItemCommand>, RemoveItemCommandHandler>(new PerRequestLifetimeManager());                                    
         }
     }
 }

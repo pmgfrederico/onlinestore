@@ -59,6 +59,10 @@
     <Compile Include="Migrations\201411170214242_AddedCartData.Designer.cs">
       <DependentUpon>201411170214242_AddedCartData.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201411191958536_AddedOrderAndCustomer.cs" />
+    <Compile Include="Migrations\201411191958536_AddedOrderAndCustomer.Designer.cs">
+      <DependentUpon>201411191958536_AddedOrderAndCustomer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="OnlineStoreDbContext.cs" />
     <Compile Include="Repositories\GenericReadonlyRepository.cs" />
@@ -94,6 +98,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201411170214242_AddedCartData.resx">
       <DependentUpon>201411170214242_AddedCartData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411191958536_AddedOrderAndCustomer.resx">
+      <DependentUpon>201411191958536_AddedOrderAndCustomer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SampleData\Products.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -25,6 +25,16 @@ var OnlineStore;
 
                 return total;
             }, this);
+            this.totalItemCount = ko.computed(function () {
+                var items = this.cartItems();
+                var total = 0;
+
+                for (var i = 0; i < items.length; i++) {
+                    total += items[i].quantity();
+                }
+
+                return total;
+            }, this);
             this.isLoading = ko.observable(false);
         }
         ShoppingCart.prototype.initializeComponent = function (settings) {

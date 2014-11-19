@@ -11,13 +11,7 @@ namespace ImgGroup.OnlineStore.Contracts
     [DataContract]
     [KnownTypeAttribute(typeof(ShoppingCart))]
     public class ShoppingCart : IShoppingCart
-    {
-        public enum StockKeepingUnit
-        {
-            Unit,
-            DecimalMeasure
-        }
-
+    {        
         public class CartItem : IEquatable<CartItem>
         {
             // TODO: Don't wan't to couple with another bounded context entity. I will have my represenation of product in the potential Shopping cart module

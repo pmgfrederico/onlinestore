@@ -10,13 +10,33 @@ namespace ImgGroup.OnlineStore.Contracts
     //TODO Discuss Customer as a role of fiscal entities, not persons. Considered out of the scope of the exercise
     public class Customer : IEntity<Guid>
     {
+        public Customer()
+        {
+
+        }
+
+        internal Customer(string name)
+        {
+            this.Id = Guid.NewGuid();
+            this.Name = name;
+        }
+
         #region IEntity<Guid> implementation
 
         public Guid Id
         {
-            get { throw new NotImplementedException(); }
+            get;
+            private set;
         }
 
+        #endregion
+
+        public string Name { get; internal set; }
+        public string FiscalNumber { get; internal set; }
+
+        //TODO Manage addresses - Already exemplified with the Order Entity
+
+        #region IEntity<Guid> implementation
         object[] IEntity<Guid>.Key()
         {
             return new object[] { this.Id };

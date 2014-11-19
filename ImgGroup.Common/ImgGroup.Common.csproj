@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataStructures\PagedCollection{T}.cs" />
+    <Compile Include="Entities\Composition.cs" />
     <Compile Include="Entities\IDomainCommand.cs" />
     <Compile Include="Entities\IDomainCommandHandler.cs" />
     <Compile Include="Entities\IRepository.cs" />

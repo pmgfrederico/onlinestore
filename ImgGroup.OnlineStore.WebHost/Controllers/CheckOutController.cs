@@ -6,17 +6,13 @@ using System.Web.Mvc;
 
 namespace ImgGroup.OnlineStore.WebHost.Controllers
 {
-    public class ShoppingCartController : Controller
+    [Authorize]
+    public class CheckOutController : Controller
     {
-        // GET: ShoppingCart
+        // GET: CheckOut
         public ActionResult Index()
         {
             return View();
-        }
-
-        public ActionResult CheckOut()
-        {
-            return RedirectToAction("Index", "CheckOut");
         }
     }
 }

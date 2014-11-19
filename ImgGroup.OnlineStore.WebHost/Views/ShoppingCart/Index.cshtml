@@ -2,47 +2,44 @@
     ViewBag.Title = "Index";
 }
 
-<table id="shoppingCart"
-       data-bind="ifnot:itemCount() === 0"
-       class="table table-striped">
-    <thead>
-        <tr>
-            <th colspan="4">
-                <h3><span class="label label-info" data-bind="text:itemCount"></span> item(s) totaling <span class="label label-info" data-bind="text:'$ ' + cartTotal().toFixed(2)"></span></h3>
-            </th>
-        </tr>
-    </thead>
-    <tbody data-bind="foreach: cartItems">
-        <tr>
-            <td>
-                <img data-bind="attr:{src:'http://demos.telerik.com/kendo-ui/content/web/foods/'+ productId() +'.jpg'}" style="width:48px; height:48px;" />
-            </td>
-            <td>
-                <span data-bind="text:productName"></span>
-            </td>
-            <td>
-                $ <span data-bind="text:productPrice().toFixed(2)"></span>
-            </td>
-            <td>
-                <input data-bind="kendoNumericTextBox:{ value:quantity, min:0, enabled: $parent.isLoading() === false}"
-                       data-role="numerictextbox"
-                       class="k-input" />
-                <button data-bind="click:$parent.removeItem.bind($parent,$data)"
-                        class="btn btn-default">
-                    <span class="glyphicon glyphicon-trash"></span>
-                </button>
-            </td>
-        </tr>
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="4">
-                <span data-bind="if:itemCount() === 0">Your shopping cart is empty</span>
-            </td>
-        </tr>
-    </tfoot>
-</table>
+<div id="shoppingCart">
+    <table data-bind="ifnot:itemCount() === 0"
+           class="table table-striped">
+        <thead>
+            <tr>
+                <th colspan="4">
+                    <h3><span class="label label-info" data-bind="text:totalItemCount"></span> item(s) totaling <span class="label label-info" data-bind="text:'$ ' + cartTotal().toFixed(2)"></span></h3>
+                    @Html.ActionLink("Check out", "CheckOut", null, new { @class="btn btn-primary"})
+                </th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: cartItems">
+            <tr>
+                <td>
+                    <img data-bind="attr:{src:'http://demos.telerik.com/kendo-ui/content/web/foods/'+ productId() +'.jpg'}" style="width:48px; height:48px;" />
+                </td>
+                <td>
+                    <span data-bind="text:productName"></span>
+                </td>
+                <td>
+                    $ <span data-bind="text:productPrice().toFixed(2)"></span>
+                </td>
+                <td>
+                    <input data-bind="kendoNumericTextBox:{ value:quantity, min:0, enabled: $parent.isLoading() === false}"
+                           data-role="numerictextbox"
+                           class="k-input" />
+                    <button data-bind="click:$parent.removeItem.bind($parent,$data)"
+                            class="btn btn-default">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
 
+    </table>
+
+    <span data-bind="if:itemCount() === 0" class="label label-warning">Your shopping cart is empty</span>
+</div>
 @{
     var shopperId = Request.AnonymousID;
 }

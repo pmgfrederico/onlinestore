@@ -88,7 +88,7 @@ namespace ImgGroup.OnlineStore.WebHost.Controllers.Api
                 productName = ci.ProductName,
                 productPrice = ci.ProductPrice,
                 quantity = ci.Quantity
-            })); //TODO add price
+            }));
         }
     }
 }

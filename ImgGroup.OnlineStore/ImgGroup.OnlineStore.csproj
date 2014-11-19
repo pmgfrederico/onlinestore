@@ -84,6 +84,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\Address.cs" />
+    <Compile Include="Contracts\AddressRole.cs" />
+    <Compile Include="Contracts\Currency.cs" />
     <Compile Include="Contracts\Customer.cs" />
     <Compile Include="Contracts\IShoppingCart.cs" />
     <Compile Include="Contracts\IShoppingCartCommand.cs" />
@@ -94,6 +97,7 @@
     <Compile Include="Contracts\ShoppingCart.cs" />
     <Compile Include="Contracts\ShoppingCartCommandHandlers.cs" />
     <Compile Include="Contracts\ShoppingSession.cs" />
+    <Compile Include="Contracts\StockKeepingUnit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />

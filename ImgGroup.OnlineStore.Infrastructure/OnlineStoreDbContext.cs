@@ -18,6 +18,8 @@ namespace ImgGroup.OnlineStore.Infrastructure
         /// </remarks>
         public virtual IDbSet<Product> Products { get; set; }
         public virtual IDbSet<ShoppingSession> ShoppingSessions { get; set; }
+        public virtual IDbSet<Customer> Customers { get; set; }
+        public virtual IDbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -40,7 +42,58 @@ namespace ImgGroup.OnlineStore.Infrastructure
             shoppingSessionModel.ToTable("ShoppingSessions")
                 .Property(model => model.Id)
                 .HasColumnName("ShoppingSessionId");
-            
+
+            modelBuilder.ComplexType<Address>();
+
+            var orderModel = modelBuilder.Entity<Order>();
+            orderModel.ToTable("Orders")
+                .Property(model => model.Id)
+                .HasColumnName("OrderId");
+            orderModel.HasKey(model => model.Id);
+            orderModel.HasRequired(model => model.Customer)
+                .WithMany()
+                .Map(cfg => cfg.MapKey("CustomerId"))
+                .WillCascadeOnDelete(false);            
+            orderModel.HasMany(model => model.StatusHistory)
+                .WithRequired()                
+                .HasForeignKey(model => model.AggregateId)
+                .WillCascadeOnDelete(true);
+            orderModel.HasMany(model => model.Addresses)
+                .WithRequired()
+                .HasForeignKey(model => model.AggregateId)
+                .WillCascadeOnDelete(true);
+            orderModel.HasMany(model => model.Items)
+                .WithRequired()
+                .HasForeignKey(model => model.AggregateId)
+                .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Order.OrderStatus>().Property(model => model.Id).HasColumnName("OrderStatusId");
+            modelBuilder.Entity<Order.OrderStatus>().HasKey(model => model.Id);
+            modelBuilder.Entity<Order.OrderStatus>()
+                .Property(model => model.AggregateId)
+                .HasColumnName("OrderId");
+
+            modelBuilder.Entity<Order.OrderAddress>().Property(model => model.Id).HasColumnName("OrderAddressId");
+            modelBuilder.Entity<Order.OrderAddress>().HasKey(model => model.Id);
+            modelBuilder.Entity<Order.OrderAddress>()
+                .Property(model => model.AggregateId)
+                .HasColumnName("OrderId");
+
+            modelBuilder.Entity<Order.OrderItem>().Property(model => model.Id).HasColumnName("OrderItemId");
+            modelBuilder.Entity<Order.OrderItem>().HasKey(model => model.Id);
+            modelBuilder.Entity<Order.OrderItem>()
+                .Property(model => model.AggregateId)
+                .HasColumnName("OrderId");
+            modelBuilder.Entity<Order.OrderItem>().HasRequired(model => model.Product)
+                .WithMany()
+                .Map(cfg => cfg.MapKey("ProductId"))
+                .WillCascadeOnDelete(false);   
+
+            var customerModel = modelBuilder.Entity<Customer>();
+            customerModel.ToTable("Customers")
+                .Property(model => model.Id)
+                .HasColumnName("CustomerId");
+            customerModel.HasKey(model => model.Id);            
         }
     }
 }
