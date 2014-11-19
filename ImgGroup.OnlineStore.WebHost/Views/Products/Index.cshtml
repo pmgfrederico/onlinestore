@@ -1,0 +1,159 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div class="demo-section">
+    <style scoped>
+        .demo-section {
+            margin: 20px auto;
+            border: 0;
+            background: none;
+            width: 577px;
+        }
+
+        #listView {
+            padding: 10px;
+            margin-bottom: -1px;
+            min-width: 555px;
+            min-height: 510px;
+        }
+
+        .product {
+            float: left;
+            position: relative;
+            width: 111px;
+            height: 170px;
+            margin: 0;
+            padding: 0;
+        }
+
+            .product img {
+                width: 110px;
+                height: 110px;
+            }
+
+            .product h3 {
+                margin: 0;
+                padding: 3px 5px 0 0;
+                max-width: 96px;
+                overflow: hidden;
+                line-height: 1.1em;
+                font-size: .9em;
+                font-weight: normal;
+                text-transform: uppercase;
+                color: #999;
+            }
+
+            .product p {
+                visibility: hidden;
+            }
+
+            .product:hover p {
+                visibility: visible;
+                position: absolute;
+                width: 110px;
+                height: 110px;
+                top: 0;
+                margin: 0;
+                padding: 0;
+                line-height: 110px;
+                vertical-align: middle;
+                text-align: center;
+                color: #fff;
+                background-color: rgba(0,0,0,0.75);
+                transition: background .2s linear, color .2s linear;
+                -moz-transition: background .2s linear, color .2s linear;
+                -webkit-transition: background .2s linear, color .2s linear;
+                -o-transition: background .2s linear, color .2s linear;
+            }
+
+        .k-listview:after {
+            content: ".";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+    </style>
+    <table>
+        <tbody id="listView"></tbody>
+    </table>
+    <div id="pager" class="k-pager-wrap"></div>
+</div>
+
+<script type="text/x-kendo-template" id="template">
+    <div class="product">
+        <img src="http://demos.telerik.com/kendo-ui/content/web/foods/#= ProductId #.jpg" alt="#: Name #" title="#: Name #" />
+        <div style="padding:4px;"><button data-role="cartitem" data-value="#= ProductId #" class="btn btn-default">Add to cart</button></div>
+    </div>
+</script>
+
+@{    
+    var pageSize = default(int);
+    
+    if(!int.TryParse(Request.QueryString["pageSize"], out pageSize))
+    {
+        pageSize = 15;
+    }           
+}
+
+@section scripts{
+    <script type="text/javascript">
+
+        $(function () {
+            var dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: "@Html.Raw( Url.HttpRouteUrl("DefaultApi", new { controller = "Products" }))",
+                        dataType: "json"
+                    },
+                    parameterMap: function (data, type) {
+                        if (type == "read") {
+                            // send take as "$top" and skip as "$skip"
+                            return {
+                                top: data.take,
+                                skip: data.skip,
+                                pageSize: data.take,
+                                pageIndex: data.page-1
+                            }
+                        }
+                    }
+                },
+                pageSize:@pageSize,
+                serverPaging: true,               
+                schema: {
+                    total: "TotalCount",
+                    data: "Items"
+                }
+            });
+
+            $("#pager").kendoPager({
+                dataSource: dataSource
+            });
+
+            var cart = new OnlineStore.ShoppingCart('@Request.AnonymousID');
+            cart.initializeComponent({                
+                getUrl: '@Url.HttpRouteUrl("DefaultApi", new { controller = "ShoppingCart", id = Request.AnonymousID })',
+                cmdUrl: '/api/ShoppingCart/Execute'
+            });
+
+            $("#listView").kendoListView({
+                dataSource: dataSource,
+                template: kendo.template($("#template").html()),
+                dataBound: function() {
+                    $('[data-role="cartitem"]').on("click",function(){
+                        var productId = $(this).data("value");
+                        cart.addItem({
+                            $type:"ImgGroup.OnlineStore.Contracts.AddItemCommand, ImgGroup.OnlineStore",
+                            ShopperId:'@Request.AnonymousID',
+                            ProductId:productId,
+                            Quantity:1
+                        })
+                    });
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @*@Html.ActionLink("ImgGroup Online Store", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Product Catalog", "Index", "Products", new { area = "" }, new { @class = "navbar-brand" })</li>
+                    <li>
+                        <a href="@Url.Action("Index","ShoppingCart")"><span class="glyphicon glyphicon-shopping-cart text-muted"></span> <small id="shoppingCartWidget" class="label label-warning text" style="vertical-align:top" data-bind="text:itemCount">0</small></a>
+                    </li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/kendo")
+    @Scripts.Render("~/bundles/ko")
+    @Scripts.Render("~/bundles/app")
+    
+    <script>
+
+        var shoppingCartWidget = {
+            itemCount: ko.observable()
+        };
+        ko.applyBindings(shoppingCartWidget, $('#shoppingCartWidget').get(0));
+
+        (function () {
+            var cart = new OnlineStore.ShoppingCart('@Request.AnonymousID');
+            cart.initializeComponent({
+                getUrl: '@Url.HttpRouteUrl("DefaultApi", new { controller = "ShoppingCart", id = Request.AnonymousID })',
+                cmdUrl: '/api/ShoppingCart/Execute'
+            });
+            cart.refresh();
+        }());
+    </script>
+
+    @RenderSection("scripts", required: false)
+
+</body>
+</html>

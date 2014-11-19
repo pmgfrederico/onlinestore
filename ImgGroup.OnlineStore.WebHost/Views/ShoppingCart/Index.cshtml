@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>This is the shopping cart page</h2>
+
+<table id="shoppingCart"
+       data-bind="ifnot:itemCount() === 0"
+       class="table table-striped">
+    <thead>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: cartItems">
+        <tr>
+            <td>
+                <img data-bind="attr:{src:'http://demos.telerik.com/kendo-ui/content/web/foods/'+ productId() +'.jpg'}" style="width:48px; height:48px;" />
+            </td>
+            <td>
+                <span data-bind="text:productName"></span>
+            </td>
+            <td>
+                <input data-bind="kendoNumericTextBox:{ value:quantity, min:0, enabled: $parent.isLoading() === false}"
+                       data-role="numerictextbox"
+                       class="k-input" />
+                <button data-bind="click:$parent.removeItem.bind($parent,$data)"
+                        class="btn btn-default">
+                    <span class="glyphicon glyphicon-trash"></span>
+                </button>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3">
+                <span data-bind="if:itemCount() === 0">Your shopping cart is empty</span>
+            </td>
+        </tr>
+    </tfoot>
+</table>
+
+@{
+    var shopperId = Request.AnonymousID;
+}
+
+@section scripts{
+    <script>
+        /// <reference path="~/Scripts/app/shoppingCart.js" />
+
+        //$('[data-role=numerictextbox]').kendoNumericTextBox();
+
+        var cart = new OnlineStore.ShoppingCart('@shopperId');
+        cart.initializeComponent({
+            bindingTarget: $('#shoppingCart').get(0),
+            getUrl: '@Url.HttpRouteUrl("DefaultApi", new { controller = "ShoppingCart", id = shopperId })',
+            cmdUrl: '/api/ShoppingCart/Execute'
+        });
+
+    </script>
+}
+
